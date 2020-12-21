@@ -48,7 +48,7 @@ impl TryIntoJs for Record {
 
         json.set_property("buffer",self.buffer.try_to_js(js_env)?)?;
         json.set_property("comment",js_env.create_string_utf8(&self.comment)?)?;
-        
+
         json.try_to_js(js_env)
     }
 }
@@ -84,4 +84,11 @@ fn test3(data: &[u8]) -> Result<String,NjError> {
     Ok(format!("reply {}",message))
 }
 
+#[node_bindgen]
+fn test4(data: &[u8], foo: &[u8]) -> Result<String,NjError> {
 
+    let message = String::from_utf8(data.to_vec())?;
+    let f = String::from_utf8(foo.to_vec())?;
+
+    Ok(format!("reply {} {}",message, f))
+}
